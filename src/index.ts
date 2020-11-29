@@ -1,2 +1,4 @@
-import * as express from 'express';
-const app = express();
+import { App } from './app';
+
+const app = new App();
+app.listen();
