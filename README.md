@@ -8,31 +8,31 @@
 
 **The API should be able to handle:**
 
-- [ ] Creating a blog post.
+- [x] Creating a blog post.
 
-- [ ] Updating a blog post
+- [x] Updating a blog post
 
-- [ ] Deleting a blog post
+- [x] Deleting a blog post
 
-- [ ] Retrieving a single blog post based on an identifier
+- [x] Retrieving a single blog post based on an identifier
 
-- [ ] Retrieve a list of blog posts ordered from most recent to older.
+- [x] Retrieve a list of blog posts ordered from most recent to older.
 
-- [ ] PostgreSQL must be used as storage solution.
+- [x] PostgreSQL must be used as storage solution.
 
-- [ ] All post must be stored to database.
+- [x] All post must be stored to database.
 
-- [ ] No authentications or security restrictions are needed.
+- [x] No authentications or security restrictions are needed.
 
-- [ ] Creating comments for posts.
+- [x] Creating comments for posts.
 
-- [ ] Creating the ability to add tags to posts.
+- [x] Creating the ability to add tags to posts.
 
-- [ ] Apply at least 2 middleware.
+- [x] Apply at least 2 middleware.
 
-- [ ] Validate incoming data.
+- [x] Validate incoming data.
 
-- [ ] Handle Errors.
+- [x] Handle Errors.
 
 **Homework Part 2**
 
