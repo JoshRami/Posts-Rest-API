@@ -8,72 +8,92 @@ import { getErrorMessages } from '../helpers/input.error';
 
 export class BlogController {
   async getBlogs(request: Request, response: Response, next: NextFunction) {
-    const repository = getRepository(Blog);
-    const data = await repository.find({ order: { creationDate: 'DESC' } });
-    if (!data.length) {
-      return next(new HttpException(404, ['Blogs not found']));
+    try {
+      const repository = getRepository(Blog);
+      const data = await repository.find({ order: { creationDate: 'DESC' } });
+      if (!data.length) {
+        return next(new HttpException(404, ['Blogs not found']));
+      }
+      response.status(200).json({ data });
+    } catch (error) {
+      return next(new HttpException(500, [error.message]));
     }
-    response.status(200).json({ data });
   }
 
   async getBlog(request: Request, response: Response, next: NextFunction) {
-    const repository = getRepository(Blog);
-    const { blogId } = request.params;
-    const blog = await repository.findOne(blogId);
-    response.status(200).json({ data: blog });
+    try {
+      const repository = getRepository(Blog);
+      const { blogId } = request.params;
+      const blog = await repository.findOne(blogId);
+      response.status(200).json({ data: blog });
+    } catch (error) {
+      return next(new HttpException(500, [error.message]));
+    }
   }
 
   async updateBlog(request: Request, response: Response, next: NextFunction) {
-    const repository = getRepository(Blog);
+    try {
+      const repository = getRepository(Blog);
 
-    const { blogId } = request.params;
-    const { title, content } = request.body;
+      const { blogId } = request.params;
+      const { title, content } = request.body;
 
-    const blog = await repository.findOne(blogId);
+      const blog = await repository.findOne(blogId);
 
-    blog.title = title;
-    blog.content = content;
+      blog.title = title;
+      blog.content = content;
 
-    const errors = await validate(blog);
-    const errorMessages = getErrorMessages(errors);
+      const errors = await validate(blog);
+      const errorMessages = getErrorMessages(errors);
 
-    if (errorMessages.length) {
-      return next(new HttpException(400, errorMessages));
+      if (errorMessages.length) {
+        return next(new HttpException(400, errorMessages));
+      }
+      const updated = await repository.save(blog);
+      response.status(200).json({ data: updated });
+    } catch (error) {
+      return next(new HttpException(500, [error.message]));
     }
-    const updated = await repository.save(blog);
-    response.status(200).json({ data: updated });
   }
 
   async createBlog(request: Request, response: Response, next: NextFunction) {
-    const repository = getRepository(Blog);
-    const { content, title } = request.body;
-    const blog = new Blog();
-    blog.content = content;
-    blog.title = title;
+    try {
+      const repository = getRepository(Blog);
+      const { content, title } = request.body;
+      const blog = new Blog();
+      blog.content = content;
+      blog.title = title;
 
-    const errors = await validate(blog);
-    const errorMessages = getErrorMessages(errors);
+      const errors = await validate(blog);
+      const errorMessages = getErrorMessages(errors);
 
-    if (errorMessages.length) {
-      return next(new HttpException(400, errorMessages));
+      if (errorMessages.length) {
+        return next(new HttpException(400, errorMessages));
+      }
+      const newBlog = await repository.create(blog);
+      const data = await repository.save(newBlog);
+
+      response.status(201).json({ data });
+    } catch (error) {
+      return next(new HttpException(500, [error.message]));
     }
-    const newBlog = await repository.create(blog);
-    const data = await repository.save(newBlog);
-
-    response.status(201).json({ data });
   }
 
   async deleteBlog(request: Request, response: Response, next: NextFunction) {
-    const repository = getRepository(Blog);
-    const { blogId } = request.params;
-    const blog = await repository.findOne(blogId);
+    try {
+      const repository = getRepository(Blog);
+      const { blogId } = request.params;
+      const blog = await repository.findOne(blogId);
 
-    const { affected } = await repository.delete(blog.id);
-    if (affected === 0) {
-      return next(
-        new HttpException(500, ['Server error while deleting the blog'])
-      );
+      const { affected } = await repository.delete(blog.id);
+      if (affected === 0) {
+        return next(
+          new HttpException(500, ['Server error while deleting the blog'])
+        );
+      }
+      response.status(204).end();
+    } catch (error) {
+      return next(new HttpException(500, [error.message]));
     }
-    response.status(204).end();
   }
 }

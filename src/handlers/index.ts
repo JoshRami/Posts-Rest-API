@@ -3,7 +3,7 @@ import HttpException from './exception';
 
 const notFound = (req: Request, res: Response, next: NextFunction): void => {
   res.status(404).json({
-    data: `endpoint ${req.url} with method: ${req.method} not found`,
+    message: `endpoint ${req.url} with method: ${req.method} not found`,
   });
 };
 

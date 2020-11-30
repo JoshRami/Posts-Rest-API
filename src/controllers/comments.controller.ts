@@ -13,27 +13,31 @@ export class CommentController {
     response: Response,
     next: NextFunction
   ) {
-    const blogRepo = getRepository(Blog);
-    const { blogId } = request.params;
+    try {
+      const blogRepo = getRepository(Blog);
+      const { blogId } = request.params;
 
-    const commentRepo = getRepository(Comment);
-    const { comment } = request.body;
+      const commentRepo = getRepository(Comment);
+      const { comment } = request.body;
 
-    const blog = await blogRepo.findOne(blogId);
+      const blog = await blogRepo.findOne(blogId);
 
-    const commentEntity = new Comment();
-    commentEntity.blog = blog;
-    commentEntity.comment = comment;
+      const commentEntity = new Comment();
+      commentEntity.blog = blog;
+      commentEntity.comment = comment;
 
-    const errors = await validate(commentEntity);
-    const errorMessages = getErrorMessages(errors);
-    if (errorMessages.length) {
-      return next(new HttpException(400, errorMessages));
+      const errors = await validate(commentEntity);
+      const errorMessages = getErrorMessages(errors);
+      if (errorMessages.length) {
+        return next(new HttpException(400, errorMessages));
+      }
+
+      const newComment = await commentRepo.save(commentEntity);
+      response
+        .status(201)
+        .json({ data: { id: newComment.id, comment: newComment.comment } });
+    } catch (error) {
+      return next(new HttpException(500, [error.message]));
     }
-
-    const newComment = await commentRepo.save(commentEntity);
-    response
-      .status(201)
-      .json({ data: { id: newComment.id, comment: newComment.comment } });
   }
 }
