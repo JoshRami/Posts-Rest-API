@@ -1,7 +1,10 @@
 import { Router } from 'express';
+import { BlogController } from '../controllers/blogs.controller';
 
 export const blogRouter = Router();
 
-blogRouter.route('/').get().post();
+const blogController = new BlogController();
+const { getBlogs, getBlog, createBlog, deleteBlog } = blogController;
 
-blogRouter.route('/:blogId').get().post().delete();
+blogRouter.route('/').get(getBlogs).post(createBlog);
+blogRouter.route('/:blogId').get(getBlog).delete(deleteBlog);

@@ -1,4 +1,8 @@
+import { createConnection } from 'typeorm';
 import { App } from './app';
 
-const app = new App();
-app.listen();
+(async () => {
+  await createConnection();
+  const app = new App();
+  app.bootstrap();
+})();

@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import HttpException from './exception';
 
-const notFound = (req: Request, res: Response, next: NextFunction) => {
-  res.json('not found');
+const notFound = (req: Request, res: Response, next: NextFunction): void => {
+  res.status(404).json({ data: 'endpoint not found' });
 };
 
 function errorMiddleware(
@@ -12,10 +12,10 @@ function errorMiddleware(
   next: NextFunction
 ) {
   const status = error.status || 500;
-  const message = error.message || 'Something went wrong';
-  response.status(status).send({
+  const messages = error.messages || ['Something bad happened'];
+  response.status(status).json({
     status,
-    message,
+    messages,
   });
 }
 
