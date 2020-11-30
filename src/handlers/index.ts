@@ -2,7 +2,9 @@ import { NextFunction, Request, Response } from 'express';
 import HttpException from './exception';
 
 const notFound = (req: Request, res: Response, next: NextFunction): void => {
-  res.status(404).json({ data: 'endpoint not found' });
+  res.status(404).json({
+    data: `endpoint ${req.url} with method: ${req.method} not found`,
+  });
 };
 
 function errorMiddleware(

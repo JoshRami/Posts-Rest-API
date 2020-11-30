@@ -2,8 +2,6 @@
 
 **This repo contains the solution for the week 4 assignment, the task is to build a RestFul API that manage blogs and comments that are scoped per blogs**
 
-<img src="https://www.ixon.cloud/media/ciqpa3f3/api-2x.png" alt="drawing" width="200"/>
-
 [![Watch API Docs](https://dabuttonfactory.com/button.png?t=Check+ERD+Diagram&f=Open+Sans-Bold&ts=11&tc=fff&hp=12&vp=12&c=10&bgt=unicolored&bgc=156dbc)](https://app.quickdatabasediagrams.com/#/d/ImmR78)
 
 **Create a REST version of the previous homework using express.js and typescript.**
@@ -44,4 +42,4 @@
 
 **Extra Credit**
 
-- [ ] Your program implements code migrations such that, having an empty database should be the only requirement. scripts are provided to seed and create all the tables needed.
+- [x] Your program implements code migrations such that, having an empty database should be the only requirement. scripts are provided to seed and create all the tables needed.

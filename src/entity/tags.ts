@@ -9,7 +9,7 @@ export class Tag {
   @ManyToMany((type) => Blog, (blog) => blog.tags)
   blogs: Blog[];
 
-  @MaxLength(20)
+  @MaxLength(50)
   @IsNotEmpty()
   @IsString()
   @Column({

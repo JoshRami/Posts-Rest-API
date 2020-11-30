@@ -5,6 +5,7 @@ import { validate } from 'class-validator';
 import { Tag } from '../entity/tags';
 import HttpException from '../handlers/exception';
 import { Blog } from '../entity/blogs';
+import { getErrorMessages } from '../helpers/input.error';
 
 export class TagController {
   async createTag(request: Request, response: Response, next: NextFunction) {
@@ -21,23 +22,18 @@ export class TagController {
       tagEntity.tag = tag;
 
       const errors = await validate(tagEntity);
-      if (errors.length) {
-        const errorMessages: string[] = [];
-        errors.forEach((error) => {
-          errorMessages.push(...Object.values(error.constraints));
-        });
-
+      const errorMessages = getErrorMessages(errors);
+      if (errorMessages.length) {
         return next(new HttpException(400, errorMessages));
       }
 
+      blog.tags = [...blog.tags, tagEntity];
       const newTag = await tagRepo.save(tagEntity);
-      blog.tags = [...blog.tags, newTag];
-
       await blogRepo.save(blog);
 
-      response.status(201).json({ data: { newTag, blog } });
+      response.status(201).json({ data: newTag });
     } catch (error) {
-      console.log(error);
+      return next(new HttpException(500, [error.message]));
     }
   }
 }

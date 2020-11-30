@@ -6,7 +6,6 @@ import {
   JoinTable,
   OneToMany,
   CreateDateColumn,
-  MinKey,
 } from 'typeorm';
 import { IsString, MaxLength, MinLength, IsNotEmpty } from 'class-validator';
 import { Comment } from './comments';
@@ -31,7 +30,9 @@ export class Blog {
   @IsString()
   content: string;
 
-  @CreateDateColumn({ name: 'creationDate' })
+  @CreateDateColumn({
+    name: 'creationDate',
+  })
   creationDate: Date;
 
   @ManyToMany((type) => Tag, (tag) => tag.blogs)

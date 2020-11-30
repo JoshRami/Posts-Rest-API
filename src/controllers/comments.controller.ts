@@ -5,6 +5,7 @@ import { validate } from 'class-validator';
 import { Comment } from '../entity/comments';
 import HttpException from '../handlers/exception';
 import { Blog } from '../entity/blogs';
+import { getErrorMessages } from '../helpers/input.error';
 
 export class CommentController {
   async createComment(
@@ -25,15 +26,14 @@ export class CommentController {
     commentEntity.comment = comment;
 
     const errors = await validate(commentEntity);
-    if (errors.length) {
-      const errorMessages: string[] = [];
-      errors.forEach((error) => {
-        errorMessages.push(...Object.values(error.constraints));
-      });
-
+    const errorMessages = getErrorMessages(errors);
+    if (errorMessages.length) {
       return next(new HttpException(400, errorMessages));
     }
-    const data = await commentRepo.save(commentEntity);
-    response.status(201).json({ data });
+
+    const newComment = await commentRepo.save(commentEntity);
+    response
+      .status(201)
+      .json({ data: { id: newComment.id, comment: newComment.comment } });
   }
 }
