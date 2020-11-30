@@ -8,15 +8,9 @@ import {
   CreateDateColumn,
   MinKey,
 } from 'typeorm';
+import { IsString, MaxLength, MinLength, IsNotEmpty } from 'class-validator';
 import { Comment } from './comments';
 import { Tag } from './tags';
-import {
-  IsString,
-  IS_NOT_EMPTY,
-  MaxLength,
-  MinLength,
-  IsNotEmpty,
-} from 'class-validator';
 
 @Entity()
 export class Blog {
@@ -40,8 +34,8 @@ export class Blog {
   @CreateDateColumn({ name: 'creationDate' })
   creationDate: Date;
 
-  @ManyToMany(() => Tag)
-  @JoinTable()
+  @ManyToMany((type) => Tag, (tag) => tag.blogs)
+  @JoinTable({ name: 'blog_tags' })
   tags: Tag[];
 
   @OneToMany(() => Comment, (comment) => comment)

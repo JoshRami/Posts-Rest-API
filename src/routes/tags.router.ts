@@ -1,5 +1,12 @@
 import { Router } from 'express';
 
-export const tagRouter = Router();
+import { TagController } from '../controllers/tags.controller';
+import { validateBlog } from '../helpers/blog.validator';
 
-tagRouter.route('/').get().post();
+export const tagRouter = Router({ mergeParams: true });
+
+const tagController = new TagController();
+const { createTag } = tagController;
+
+tagRouter.use(validateBlog);
+tagRouter.route('/').post(createTag);

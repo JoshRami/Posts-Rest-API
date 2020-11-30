@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { Blog } from './blogs';
 import { IsNotEmpty, IsString } from 'class-validator';
+
+import { Blog } from './blogs';
 @Entity()
 export class Comment {
   @PrimaryGeneratedColumn()

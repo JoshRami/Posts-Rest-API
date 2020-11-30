@@ -1,9 +1,13 @@
 import { IsNotEmpty, MaxLength, IsString } from 'class-validator';
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
+import { Blog } from './blogs';
 @Entity()
 export class Tag {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @ManyToMany((type) => Blog, (blog) => blog.tags)
+  blogs: Blog[];
 
   @MaxLength(20)
   @IsNotEmpty()
