@@ -1,6 +1,6 @@
 # BLOGS API
 
-**This repo contains the solution for the week 4 assignment, the task is to build a RestFul API that manage blogs and comments that are scoped per blogs**
+**The task is to build a RestFul API that manage blogs and comments that are scoped per blogs**
 
 [![Watch API Docs](https://dabuttonfactory.com/button.png?t=Check+ERD+Diagram&f=Open+Sans-Bold&ts=11&tc=fff&hp=12&vp=12&c=10&bgt=unicolored&bgc=156dbc)](https://app.quickdatabasediagrams.com/#/d/ImmR78)
 
